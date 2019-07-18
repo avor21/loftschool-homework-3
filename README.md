@@ -1,68 +1,121 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Homework 3
 
-## Available Scripts
+```
+Компонент App
+    Рендер
+      Должен присутствовать элемент с классом
+        ✓ container
+        ✓ container tab-panel
+        ✓ form-content
+        ✓ button-panel
+        ✓ button-panel button.button-next
+      Должен возвращать 3 компонента Step
+        Если state.step === 1
+          ✓ Первый компонент Step должен содержать props key="Personal information", onClick=App.handleTabClick, isSelected=true, number=1, isClickable=false
+          ✓ Второй компонент Step должен содержать props key="Card information", onClick=App.handleTabClick, isSelected=false, number=2, isClickable=false
+          ✓ Третий компонент Step должен содержать props key="Finish", onClick=App.handleTabClick, isSelected=false, number=3, isClickable=false
+        Если state.step === 2
+          ✓ Первый компонент Step должен содержать props key="Personal information", onClick=App.handleTabClick, isSelected=false, number=1, isClickable=true
+          ✓ Второй компонент Step должен содержать props key="Card information", onClick=App.handleTabClick, isSelected=false, number=2, isClickable=false
+          ✓ Третий компонент Step должен содержать props key="Finish", onClick=App.handleTabClick, isSelected=false, number=3, isClickable=false
+          Если state.step === 3
+            ✓ Первый компонент Step должен содержать props key="Personal information", onClick=App.handleTabClick, isSelected=false, number=1, isClickable=true
+            ✓ Второй компонент Step должен содержать props key="Card information", onClick=App.handleTabClick, isSelected=false, number=2, isClickable=false
+            ✓ Третий компонент Step должен содержать props key="Finish", onClick=App.handleTabClick, isSelected=false, number=3, isClickable=false
+      Кнопка button.button-next
+        ✓  должна быть disabled если !this.isFormCommitable() || !isTimeOver
+        ✓ При клике должен быть вызыван метод handleClickNextForm
+    state должен содержать поля со значениями:
+      ✓ step: 1
+      ✓ firstName: ''
+      ✓ lastName: ''
+      ✓ email: ''
+      ✓ cardNumber: ''
+      ✓ isTimeOver: false
+    Методы класса
+      handleTabClick
+        ✓ Присутствует
+        ✓ При вызове с аргументом меняется state.step на значение аргумента
+      handleChangeForm
+        ✓ Присутствует
+        ✓ При вызове с 2 аргументами меняется state[первый аргумент] = второй аргумент
+      handleClickNextForm
+        ✓ Присутствует
+        ✓ После вызова state.step увеличивается на 1
+      handleChangeTimeOver
+        ✓ Присутствует
+        ✓ При вызове с аргументом, аргумент меняет значение state.isTimeOver
+      isFormCommitable
+        ✓ Присутствует
+        Если state.step === 1
+          ✓ Должен возвращать true если state.firstName !== '' && state.lastName !== '' && state.email !== '' && state.email.includes('@')
+          ✓ Должен возвращать false если state.firstName === '' && state.lastName !== '' && state.email !== '' && state.email.includes('@')
+          ✓ Должен возвращать false если state.firstName !== '' && state.lastName === '' && state.email !== '' && state.email.includes('@') (10ms)
+          ✓ Должен возвращать false если state.firstName !== '' && state.lastName !== '' && state.email === '' && state.email.includes('@')
+        Если state.step === 2
+          ✓ Должен возврать  true если cardNumber.length === 16
+        Если state.step !== 1 | 2
+          ✓ Должен возврать false
+      renderForm
+        ✓ Присутствует
+        ✓ Если state.step === 1 возвращает компонент <PersonalForm firstName={state.firstName} lastName={state.lastName} email={state.email onChangeForm={App.handleChangeForm} />
+        ✓ Если state.step === 2 возвращает компонент <CardForm cardNumber={state.cardNumber} onChangeForm={this.handleChangeForm} onChangeTimeOver={this.handleChangeTimeOver} />
+        ✓ Если state.step === 3 возвращает строку 'Поздравляем!'
 
-In the project directory, you can run:
 
-### `npm start`
+Компонент Step
+    Рендер
+      ✓ Если props isSelected=true должен присутствовать элемент с классом step-selected
+      ✓ Если props isClickable=true, должен присутствовать класс step-clickable вместе с классом step
+      ✓ Тег с классом step__number должен содержать номер переданный через props number
+      ✓ Тег с классом step__title должен содержать текст переданный через children
+      Должен присутствовать элемент с классом
+        ✓ step
+        ✓ step__number
+        ✓ step__title
+    Методы класса
+      handleClick
+        ✓ Должен присутствовать метод handleClick
+        При вызове
+          ✓ Если isClickable=true, должен вызываться метод onClick переданный через props
+          ✓ Если isClickable=false, метод onClick переданный через props не должен вызываться
+          ✓ Если isClickable=true, должен вызываться метод onClick переданный через props c аргументом равным number переданным через props
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Компонент CardForm
+    Рендер
+      Должен присутствовать элемент с классом
+        ✓ .card-form
+        ✓ .left-time
+        ✓ .card-form input[name="cardNumber"]
+        ✓ onChange input[name="cardNumber"] должен вызывать handleChangeForm
+        ✓ onChange input[name="cardNumber"] должен вызывать handleChangeForm
+      Методы класса
+        handleChangeForm
+          ✓ Присутствует
+          ✓ При вызове вызывает функцию onChangeForm переданную через props, аргументами name и value становятся значения из event.target
+        componentWillUnmount
+          ✓ Присутствует
+        componentDidMount
+          ✓ Присутствует
+          ✓ При монтировании запускает интервал
+          ✓ Интервал меняет состояние компоненты state.leftTime
+        constructor
+          ✓ Присутствует
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Компонент PersonalForm
+    Рендер
+      Должен присутствовать элемент с классом
+        ✓ .personal-form
+        ✓ .personal-form input[name="firstName"]
+        ✓ .personal-form input[name="lastName"]
+        ✓ .personal-form input[name="email"]
+        ✓ onChange input[name="firstName"] должен вызывать handleChangeForm
+        ✓ onChange input[name="lastName"] должен вызывать handleChangeForm
+        ✓ onChange input[name="email"] должен вызывать handleChangeForm
+      Методы класса
+        handleChangeForm
+          ✓ Присутствует
+          ✓ При вызове вызывает функцию onChangeForm переданную через props, аргументами name и value становятся значения из event.target
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Tests:       73 passed, 73 total
+```
